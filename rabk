@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+FROM="$1"
+TO="$2"
+
+FROM_SAVES="$FROM/saves"
+FROM_STATES="$FROM/states"
+TO_SAVES="$TO/saves"
+TO_STATES="$TO/states"
+
+assert_args() {
+    if [[ -z "$1" || -z "$2" ]]
+    then
+        echo "[!] Expected <FROM> and <TO>"
+        exit 1
+    fi
+}
+
+assert_path() {
+    if [[ ! -d "$1" ]]
+    then
+        echo "[!] Bad path: $1"
+        exit 1
+    fi
+}
+
+assert_args "$FROM" "$TO"
+assert_path "$FROM"
+assert_path "$TO"
+assert_path "$FROM_SAVES"
+assert_path "$FROM_STATES"
+assert_path "$TO_SAVES"
+assert_path "$TO_STATES"
+
+cp -r "$FROM_SAVES"/* "$TO_SAVES"
+cp -r "$FROM_STATES"/* "$TO_STATES"
